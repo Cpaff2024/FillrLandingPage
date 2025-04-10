@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fillr - Find Water Refill Stations</title>
+    <style>
+        /* Basic Reset & Font */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+             scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+            line-height: 1.6;
+            color: #333;
+        }
+
+        /* Colors */
+        :root {
+            --primary-blue: #007bff;
+            --secondary-blue: #3695f5;
+            --tertiary-blue: #6bc0ff;
+            --light-blue-bg: #e7f5ff;
+            --primary-green: #28a745;
+            --light-green-bg: #e6fcf5;
+            --text-dark: #212529;
+            --text-light: #5a6268;
+            --background-light: #ffffff;
+            --background-grey: #f8f9fa;
+            --navbar-shadow: rgba(0, 0, 0, 0.05);
+            --button-shadow: rgba(0, 123, 255, 0.25);
+            --danger-red: #dc3545;
+            --success-green: #28a745;
+        }
+
+        /* Utility Classes */
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 0 20px;
+            overflow: hidden;
+        }
+
+        .py-1 { padding: 1rem 0; }
+        .py-2 { padding: 2rem 0; }
+        .py-3 { padding: 3rem 0; }
+        .py-4 { padding: 4rem 0; }
+
+        .text-center { text-align: center; }
+        .text-primary { color: var(--primary-blue); }
+        .text-secondary { color: var(--primary-green); }
+
+        /* Basic Button Styling */
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px var(--navbar-shadow);
+            position: relative;
+            z-index: 2;
+        }
+         .btn:disabled {
+             opacity: 0.6;
+             cursor: not-allowed;
+         }
+
+        .btn-primary {
+            background-color: var(--primary-blue);
+            color: #fff;
+            box-shadow: 0 4px 8px var(--button-shadow);
+        }
+        .btn-primary:hover:not(:disabled) {
+            background-color: #0069d9;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px var(--button-shadow);
+        }
+
+        .btn-secondary {
+             background-color: var(--primary-green);
+             color: #fff;
+        }
+        .btn-secondary:hover:not(:disabled) {
+             background-color: #218838;
+             transform: translateY(-2px);
+        }
+
+
+        /* --- Page Sections --- */
+
+        /* Navbar */
+        #navbar {
+            background: var(--background-light);
+            box-shadow: 0 2px 4px var(--navbar-shadow);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        #navbar .container { display: flex; justify-content: space-between; align-items: center; }
+
+        /* Logo Styling with Icon */
+        #navbar .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+            text-decoration: none;
+            display: inline-flex; /* Use flexbox for alignment */
+            align-items: center; /* Vertically align icon and text */
+            gap: 0.5rem; /* Space between icon and text */
+        }
+        #navbar .logo i { /* Style the icon specifically */
+             font-size: 1.5rem; /* Adjust icon size relative to text */
+             color: var(--primary-blue); /* Ensure icon shares the color */
+        }
+
+
+        #navbar a.nav-link { color: var(--text-dark); text-decoration: none; padding: 8px 12px; border-radius: 4px; transition: background-color 0.2s ease, color 0.2s ease; }
+        #navbar a.nav-link:hover { color: var(--primary-blue); background-color: var(--light-blue-bg); }
+
+        /* Hero Section - Abstract Wave Background */
+        #hero {
+            background-color: var(--primary-blue);
+            color: #fff;
+            text-align: center;
+            padding: 5rem 0 8rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+        #hero::before, #hero::after { content: ''; position: absolute; bottom: 0; left: -50%; width: 200%; border-radius: 50% 50% 0 0 / 100% 100% 0 0; }
+        #hero::before { height: 150px; background-color: var(--secondary-blue); transform: translateY(30%); z-index: 1; }
+        #hero::after { height: 120px; background-color: var(--tertiary-blue); transform: translateY(50%); z-index: 0; }
+        #hero .container { position: relative; z-index: 2; }
+        #hero h1 { font-size: 2.8rem; font-weight: 700; margin-bottom: 1rem; color: #fff; text-shadow: 1px 1px 3px rgba(0,0,0,0.1); }
+        #hero p { font-size: 1.2rem; margin-bottom: 2rem; color: #f8f9fa; max-width: 600px; margin-left: auto; margin-right: auto; }
+
+        /* Story Section */
+        #story { background: var(--background-light); }
+        #story h2 { color: var(--primary-green); margin-bottom: 1rem; font-size: 1.8rem; }
+        #story p { max-width: 700px; margin-left: auto; margin-right: auto; color: var(--text-light); }
+
+        /* Features Section */
+        #features { background: var(--background-grey); }
+        #features h2 { margin-bottom: 2.5rem; font-size: 1.8rem; color: var(--text-dark); }
+        .feature-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; }
+        .feature-item { background: var(--background-light); padding: 1.5rem; border-radius: 8px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.07); transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        .feature-item:hover { transform: translateY(-5px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .feature-item i { font-size: 2.5rem; margin-bottom: 1rem; }
+        .feature-item .icon-blue { color: var(--primary-blue); }
+        .feature-item .icon-green { color: var(--primary-green); }
+        .feature-item h3 { font-size: 1.2rem; margin-bottom: 0.5rem; color: var(--text-dark); }
+        .feature-item p { font-size: 0.95rem; color: var(--text-light); }
+
+        /* Sign-Up Section */
+        #signup { background: var(--light-green-bg); text-align: center; }
+        #signup h2 { color: var(--primary-green); margin-bottom: 0.5rem; font-size: 1.8rem; }
+        #signup p { margin-bottom: 1.5rem; color: var(--text-light); }
+        #signup-form { max-width: 450px; margin: 0 auto; }
+        .form-group { text-align: left; margin-bottom: 1rem; }
+        .form-group label { display: block; margin-bottom: 0.5rem; font-weight: bold; color: var(--text-dark); }
+        .form-group input[type="text"],
+        .form-group input[type="email"] { width: 100%; padding: 12px; border: 1px solid #ced4da; border-radius: 5px; font-size: 1rem; background-color: #fff; transition: border-color 0.2s ease, box-shadow 0.2s ease; }
+        .form-group input[type="text"]:focus,
+        .form-group input[type="email"]:focus { border-color: var(--primary-blue); outline: none; box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.2); }
+        .checkbox-group { display: flex; align-items: flex-start; text-align: left; margin-bottom: 1rem; font-size: 0.9rem; color: var(--text-light); }
+        .checkbox-group input[type="checkbox"] { margin-right: 0.75rem; margin-top: 0.2rem; flex-shrink: 0; width: 1.1em; height: 1.1em; }
+        .checkbox-group label { font-weight: normal; margin-bottom: 0; }
+        .checkbox-group a { color: var(--primary-blue); text-decoration: underline; }
+        .checkbox-group a:hover { text-decoration: none; }
+        #form-status { margin-top: 1rem; font-weight: bold; min-height: 1.5em; }
+        .status-success { color: var(--success-green); }
+        .status-error { color: var(--danger-red); }
+
+        /* Footer */
+        #footer { background: var(--text-dark); color: #adb5bd; text-align: center; padding: 1.5rem 0; font-size: 0.9rem; }
+        #footer a { color: #e9ecef; text-decoration: none; margin: 0 5px; }
+        #footer a:hover { text-decoration: underline; color: #fff; }
+
+        /* --- Mobile Adjustments --- */
+        @media (max-width: 768px) {
+            #hero h1 { font-size: 2.2rem; }
+            #hero p { font-size: 1.1rem; }
+            #hero { padding: 4rem 0 6rem 0; }
+            #hero::before { height: 100px; }
+            #hero::after { height: 80px; }
+            h2 { font-size: 1.6rem !important; }
+            .feature-grid { grid-template-columns: 1fr; }
+            #navbar .container { flex-direction: column; gap: 0.5rem; }
+            #navbar .logo { font-size: 1.6rem; } /* Adjust logo size on mobile */
+            #navbar .logo i { font-size: 1.3rem; }
+        }
+
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <nav id="navbar">
+        <div class="container">
+            <a href="#" class="logo">
+                <i class="fas fa-tint"></i> Fillr
+            </a>
+            <a href="#signup" class="nav-link scroll-link">Sign Up</a>
+        </div>
+    </nav>
+
+    <section id="hero" class="py-4">
+        <div class="container">
+            <h1>Find Water Refill Stations & Reduce Plastic Waste</h1>
+            <p>Easily locate free and paid water refill points near you with Fillr. Stay hydrated and help the planet, one refill at a time.</p>
+            <a href="#signup" class="btn btn-primary scroll-link">Notify Me on Launch!</a>
+        </div>
+    </section>
+
+    <section id="story" class="py-3">
+        <div class="container">
+            <h2 class="text-center text-secondary">Tired of Single-Use Plastic? So Were We.</h2>
+            <p class="text-center">Ever found yourself on the road, desperately needing to refill your water bottle, only to find no obvious options? Our founder did, constantly. Buying yet another plastic bottle felt wasteful and unnecessary. That frustration sparked the idea for Fillr – an app built to make finding water refill stations simple and accessible for everyone. We believe staying hydrated shouldn't cost the planet.</p>
+        </div>
+    </section>
+
+    <section id="features" class="py-3">
+        <div class="container">
+            <h2 class="text-center">Discover, Refill, Contribute</h2>
+            <div class="feature-grid">
+                 <div class="feature-item"> <i class="fas fa-map-marked-alt icon-blue"></i> <h3>Find Stations</h3> <p>Discover nearby water refill stations like fountains, cafes, shops, and public taps on an interactive map.</p> </div>
+                 <div class="feature-item"> <i class="fas fa-filter icon-green"></i> <h3>Filter Your Search</h3> <p>Easily filter locations by type and cost (Free, With Purchase, Paid) to find exactly what you need.</p> </div>
+                 <div class="feature-item"> <i class="fas fa-info-circle icon-blue"></i> <h3>Get Details</h3> <p>View station specifics, user-submitted photos, ratings, and helpful reviews before you go.</p> </div>
+                 <div class="feature-item"> <i class="fas fa-plus-circle icon-green"></i> <h3>Add New Spots</h3> <p>Found a refill station not on the map? Add it easily with photos and details to help the community grow.</p> </div>
+                 <div class="feature-item"> <i class="fas fa-heart icon-blue"></i> <h3>Save Favorites</h3> <p>Keep track of your go-to refill locations for quick access later.</p> </div>
+                 <div class="feature-item"> <i class="fas fa-leaf icon-green"></i> <h3>Track Your Impact</h3> <p>See an estimate of the plastic bottles you've helped save by refilling.</p> </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="signup" class="py-3">
+        <div class="container">
+            <h2>Be the First to Know!</h2>
+            <p>Fillr is launching soon. Sign up below for launch updates and optional monthly news!</p>
+
+            <form id="signup-form" method="POST" action="https://script.google.com/macros/s/AKfycbwVv2pOZBkgRM2eJZ8GWBiZm2li4r44kYiLZr7BTAq_F9SgAHRLsZvvIcCIl_SPJQYM/exec">
+                <div class="form-group">
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email Address:</label>
+                    <input type="email" id="email" name="email" required>
+                 </div>
+
+                 <div class="checkbox-group">
+                     <input type="checkbox" id="privacy-consent" name="privacyConsent" value="true" required>
+                     <label for="privacy-consent">
+                         I agree to Fillr storing my name and email to notify me about the app launch. I have read and agree to the <a href="/privacy-policy.html" target="_blank">Privacy Policy</a>. <span style="color:red;">*</span>
+                         </label>
+                 </div>
+
+                 <div class="checkbox-group">
+                     <input type="checkbox" id="newsletter-optin" name="newsletterOptin" value="true">
+                     <label for="newsletter-optin">
+                         Yes, I'd also like to receive the optional Fillr monthly newsletter with app updates, impact stories, and case studies. (You can unsubscribe anytime).
+                     </label>
+                 </div>
+
+                <button type="submit" id="submit-button" class="btn btn-secondary">Keep Me Updated!</button>
+                <p id="form-status"></p>
+            </form>
+        </div>
+    </section>
+
+    <footer id="footer">
+        <div class="container">
+            <p>© 2025 Fillr. All rights reserved.</p>
+            </div>
+    </footer>
+
+    <script>
+        // --- Smooth Scrolling ---
+        const scrollLinks = document.querySelectorAll('.scroll-link, a[href^="#"].nav-link');
+        scrollLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                const href = this.getAttribute('href');
+                if (href.startsWith('#') && href.length > 1) {
+                    e.preventDefault();
+                    const targetId = href.substring(1);
+                    const targetElement = document.getElementById(targetId);
+                    if (targetElement) {
+                         const navbar = document.getElementById('navbar');
+                         const navbarHeight = navbar ? navbar.offsetHeight : 0;
+                         const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - navbarHeight - 10;
+                         window.scrollTo({ top: targetPosition, behavior: 'smooth' });
+                    }
+                }
+            });
+        });
+
+        // --- Form Submission with Fetch ---
+        const signupForm = document.getElementById('signup-form');
+        const submitButton = document.getElementById('submit-button');
+        const formStatus = document.getElementById('form-status');
+
+        signupForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const nameInput = document.getElementById('name');
+            const emailInput = document.getElementById('email');
+            const privacyConsent = document.getElementById('privacy-consent');
+            const scriptURL = signupForm.action;
+            formStatus.textContent = '';
+            formStatus.className = '';
+
+            if (nameInput.value.trim() === '' || emailInput.value.trim() === '') {
+                formStatus.textContent = 'Please enter both name and email.';
+                formStatus.className = 'status-error'; return;
+            }
+            if (!privacyConsent.checked) {
+                formStatus.textContent = 'You must agree to the Privacy Policy to sign up.';
+                formStatus.className = 'status-error'; return;
+            }
+
+            submitButton.disabled = true;
+            submitButton.textContent = 'Submitting...';
+            const formData = new FormData(signupForm);
+
+            fetch(scriptURL, { method: 'POST', body: formData })
+            .then(response => {
+                 if (response.ok || response.type === 'opaque') {
+                     formStatus.textContent = `Thank you, ${nameInput.value}! We'll be in touch.`;
+                     formStatus.className = 'status-success';
+                     signupForm.reset();
+                 } else { throw new Error(`Network response was not ok: ${response.statusText}`); }
+             })
+            .catch(error => {
+                console.error('Error submitting form:', error);
+                formStatus.textContent = 'Oops! Something went wrong. Please try again later.';
+                formStatus.className = 'status-error';
+            })
+            .finally(() => {
+                 submitButton.disabled = false;
+                 submitButton.textContent = 'Keep Me Updated!';
+             });
+        });
+
+        // --- Fade-in on Scroll ---
+        const sections = document.querySelectorAll('section');
+        const revealSection = (entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = 1;
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        };
+        const sectionObserver = new IntersectionObserver(revealSection, { root: null, threshold: 0.1 });
+        sections.forEach(section => {
+             if (section.id !== 'hero') {
+                 section.style.opacity = 0;
+                 section.style.transform = 'translateY(30px)';
+                 section.style.transition = 'opacity 0.8s ease-out, transform 0.8s ease-out';
+             }
+             sectionObserver.observe(section);
+         });
+        const heroSection = document.getElementById('hero');
+        if (heroSection) { heroSection.style.opacity = 1; heroSection.style.transform = 'translateY(0)'; }
+
+    </script>
+
+</body>
+</html>
