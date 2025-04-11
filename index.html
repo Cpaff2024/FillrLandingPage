@@ -25,7 +25,7 @@
         /* Colors */
         :root {
             --primary-blue: #007bff;
-            /* secondary/tertiary blue no longer needed for waves */
+            --overlay-blue: rgba(0, 123, 255, 0.6); /* Blue overlay color */
             --light-blue-bg: #e7f5ff;
             --primary-green: #28a745;
             --light-green-bg: #e6fcf5;
@@ -37,7 +37,6 @@
             --button-shadow: rgba(0, 123, 255, 0.25);
             --danger-red: #dc3545;
             --success-green: #28a745;
-            --overlay-blue: rgba(0, 123, 255, 0.6); /* Blue overlay color */
         }
 
         /* Utility Classes */
@@ -117,49 +116,20 @@
 
         /* Hero Section - Background Image with Overlay */
         #hero {
-            /* --- UPDATED BACKGROUND --- */
-            /* Apply semi-transparent blue overlay THEN the image */
-            /* Make sure 'Blue Labeled Plastic Bottles.jpg' is in the same folder as index.html */
-            /* or update the path e.g., url('images/Blue Labeled Plastic Bottles.jpg') */
             background-image: linear-gradient(var(--overlay-blue), var(--overlay-blue)), url('Blue Labeled Plastic Bottles.jpg');
             background-size: cover;
             background-position: center center;
             background-repeat: no-repeat;
             background-color: var(--primary-blue); /* Fallback color */
-            /* --- END UPDATED BACKGROUND --- */
-
             color: #fff;
             text-align: center;
-            padding: 5rem 0; /* Adjusted padding */
+            padding: 5rem 0;
             position: relative;
             overflow: hidden;
         }
-
-         /* Removed wave ::before and ::after rules */
-
-        #hero .container {
-             position: relative; /* Keep content above background */
-             z-index: 2;
-         }
-
-        #hero h1 {
-            font-size: 2.8rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            color: #fff;
-            text-shadow: 1px 1px 5px rgba(0,0,0,0.5); /* Stronger shadow for contrast */
-        }
-
-        #hero p {
-            font-size: 1.2rem;
-            margin-bottom: 2rem;
-            color: #f8f9fa;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-            text-shadow: 1px 1px 3px rgba(0,0,0,0.4); /* Add shadow here too */
-        }
-
+        #hero .container { position: relative; z-index: 2; }
+        #hero h1 { font-size: 2.8rem; font-weight: 700; margin-bottom: 1rem; color: #fff; text-shadow: 1px 1px 5px rgba(0,0,0,0.5); }
+        #hero p { font-size: 1.2rem; margin-bottom: 2rem; color: #f8f9fa; max-width: 600px; margin-left: auto; margin-right: auto; text-shadow: 1px 1px 3px rgba(0,0,0,0.4); }
 
         /* Story Section */
         #story { background: var(--background-light); }
@@ -207,7 +177,7 @@
         @media (max-width: 768px) {
             #hero h1 { font-size: 2.2rem; }
             #hero p { font-size: 1.1rem; }
-            #hero { padding: 4rem 0; } /* Adjusted mobile padding */
+            #hero { padding: 4rem 0; }
             h2 { font-size: 1.6rem !important; }
             .feature-grid { grid-template-columns: 1fr; }
             #navbar .container { flex-direction: column; gap: 0.5rem; }
@@ -228,31 +198,13 @@
 
     <section id="features" class="py-3"> <div class="container"> <h2 class="text-center">Discover, Refill, Contribute</h2> <div class="feature-grid"> <div class="feature-item"> <i class="fas fa-map-marked-alt icon-blue"></i> <h3>Find Stations</h3> <p>Discover nearby water refill stations like fountains, cafes, shops, and public taps on an interactive map.</p> </div> <div class="feature-item"> <i class="fas fa-filter icon-green"></i> <h3>Filter Your Search</h3> <p>Easily filter locations by type and cost (Free, With Purchase, Paid) to find exactly what you need.</p> </div> <div class="feature-item"> <i class="fas fa-info-circle icon-blue"></i> <h3>Get Details</h3> <p>View station specifics, user-submitted photos, ratings, and helpful reviews before you go.</p> </div> <div class="feature-item"> <i class="fas fa-plus-circle icon-green"></i> <h3>Add New Spots</h3> <p>Found a refill station not on the map? Add it easily with photos and details to help the community grow.</p> </div> <div class="feature-item"> <i class="fas fa-heart icon-blue"></i> <h3>Save Favorites</h3> <p>Keep track of your go-to refill locations for quick access later.</p> </div> <div class="feature-item"> <i class="fas fa-leaf icon-green"></i> <h3>Track Your Impact</h3> <p>See an estimate of the plastic bottles you've helped save by refilling.</p> </div> </div> </div> </section>
 
-    <section id="signup" class="py-3"> <div class="container"> <h2>Be the First to Know!</h2> <p>Fillr is launching soon. Sign up below for launch updates and optional monthly news!</p> <form id="signup-form" method="POST" action="https://script.google.com/macros/s/AKfycbwVv2pOZBkgRM2eJZ8GWBiZm2li4r44kYiLZr7BTAq_F9SgAHRLsZvvIcCIl_SPJQYM/exec"> <div class="form-group"> <label for="name">Name:</label> <input type="text" id="name" name="name" required> </div> <div class="form-group"> <label for="email">Email Address:</label> <input type="email" id="email" name="email" required> </div> <div class="checkbox-group"> <input type="checkbox" id="privacy-consent" name="privacyConsent" value="true" required> <label for="privacy-consent"> I agree to Fillr storing my name and email to notify me about the app launch. I have read and agree to the <a href="/privacy-policy.html" target="_blank">Privacy Policy</a>. <span style="color:red;">*</span> </label> </div> <div class="checkbox-group"> <input type="checkbox" id="newsletter-optin" name="newsletterOptin" value="true"> <label for="newsletter-optin"> Yes, I'd also like to receive the optional Fillr monthly newsletter with app updates, impact stories, and case studies. (You can unsubscribe anytime). </label> </div> <button type="submit" id="submit-button" class="btn btn-secondary">Keep Me Updated!</button> <p id="form-status"></p> </form> </div> </section>
+    <section id="signup" class="py-3"> <div class="container"> <h2>Be the First to Know!</h2> <p>Fillr is launching soon. Sign up below for launch updates and optional monthly news!</p> <form id="signup-form" method="POST" action="https://script.google.com/macros/s/AKfycbwVv2pOZBkgRM2eJZ8GWBiZm2li4r44kYiLZr7BTAq_F9SgAHRLsZvvIcCIl_SPJQYM/exec"> <div class="form-group"> <label for="name">Name:</label> <input type="text" id="name" name="name" required> </div> <div class="form-group"> <label for="email">Email Address:</label> <input type="email" id="email" name="email" required> </div> <div class="checkbox-group"> <input type="checkbox" id="privacy-consent" name="privacyConsent" value="true" required> <label for="privacy-consent"> I agree to Fillr storing my name and email to notify me about the app launch. I have read and agree to the <a href="./privacy-policy.html" target="_blank">Privacy Policy</a>. <span style="color:red;">*</span> </label> </div> <div class="checkbox-group"> <input type="checkbox" id="newsletter-optin" name="newsletterOptin" value="true"> <label for="newsletter-optin"> Yes, I'd also like to receive the optional Fillr monthly newsletter with app updates, impact stories, and case studies. (You can unsubscribe anytime). </label> </div> <button type="submit" id="submit-button" class="btn btn-secondary">Keep Me Updated!</button> <p id="form-status"></p> </form> </div> </section>
 
     <footer id="footer"> <div class="container"> <p>© 2025 Fillr. All rights reserved.</p> </div> </footer>
 
     <script>
         // --- Smooth Scrolling ---
         const scrollLinks = document.querySelectorAll('.scroll-link, a[href^="#"].nav-link');
-        scrollLinks.forEach(link => { /* ... smooth scroll code ... */ }); // Keep the JS
-
-        // --- Form Submission with Fetch ---
-        const signupForm = document.getElementById('signup-form');
-        const submitButton = document.getElementById('submit-button');
-        const formStatus = document.getElementById('form-status');
-        signupForm.addEventListener('submit', function(e) { /* ... fetch submission code ... */ }); // Keep the JS
-
-        // --- Fade-in on Scroll ---
-        const sections = document.querySelectorAll('section');
-        const revealSection = (entries, observer) => { /* ... fade-in code ... */ }; // Keep the JS
-        const sectionObserver = new IntersectionObserver(revealSection, { root: null, threshold: 0.1, });
-        sections.forEach(section => { /* ... fade-in setup code ... */ }); // Keep the JS
-        const heroSection = document.getElementById('hero');
-        if (heroSection) { heroSection.style.opacity = 1; heroSection.style.transform = 'translateY(0)'; }
-
-        // --- Need to re-paste the JS functions here if they were omitted above ---
-         // Ensure Smooth Scrolling JS is present
          scrollLinks.forEach(link => {
              link.addEventListener('click', function(e) {
                  const href = this.getAttribute('href');
@@ -270,7 +222,10 @@
              });
          });
 
-         // Ensure Form Submission JS is present
+        // --- Form Submission with Fetch ---
+        const signupForm = document.getElementById('signup-form');
+        const submitButton = document.getElementById('submit-button');
+        const formStatus = document.getElementById('form-status');
           signupForm.addEventListener('submit', function(e) {
             e.preventDefault();
             const nameInput = document.getElementById('name');
@@ -312,7 +267,8 @@
              });
         });
 
-        // Ensure Fade-in JS is present
+        // --- Fade-in on Scroll ---
+        const sections = document.querySelectorAll('section');
         const revealSection = (entries, observer) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -321,6 +277,7 @@
                 }
             });
         };
+        const sectionObserver = new IntersectionObserver(revealSection, { root: null, threshold: 0.1 });
          sections.forEach(section => {
              if (section.id !== 'hero') {
                  section.style.opacity = 0;
@@ -329,6 +286,8 @@
              }
              sectionObserver.observe(section);
          });
+        const heroSection = document.getElementById('hero');
+        if (heroSection) { heroSection.style.opacity = 1; heroSection.style.transform = 'translateY(0)'; }
 
     </script>
 
