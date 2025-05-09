@@ -1,295 +1,434 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fillr - Find Water Refill Stations</title>
-    <style>
-        /* Basic Reset & Font */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fillr – Refill Everything, Anywhere</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+  :root {
+    --accent: #00b4d8;
+    --accent-dark: #0077b6;
+    --bg: #f0faff;
+    --white: #ffffff;
+    --dark: #1e1e1e;
+    --blur: rgba(255, 255, 255, 0.6);
+  }
 
-        html {
-             scroll-behavior: smooth;
-        }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-            line-height: 1.6;
-            color: #333;
-        }
+  html, body {
+    font-family: 'Outfit', sans-serif;
+    background: var(--bg);
+    color: var(--dark);
+    scroll-behavior: smooth;
+  }
 
-        /* Colors */
-        :root {
-            --primary-blue: #007bff;
-            --overlay-blue: rgba(0, 123, 255, 0.6); /* Blue overlay color */
-            --light-blue-bg: #e7f5ff;
-            --primary-green: #28a745;
-            --light-green-bg: #e6fcf5;
-            --text-dark: #212529;
-            --text-light: #5a6268;
-            --background-light: #ffffff;
-            --background-grey: #f8f9fa;
-            --navbar-shadow: rgba(0, 0, 0, 0.05);
-            --button-shadow: rgba(0, 123, 255, 0.25);
-            --danger-red: #dc3545;
-            --success-green: #28a745;
-        }
+  body { overflow-x: hidden; }
 
-        /* Utility Classes */
-        .container {
-            max-width: 960px;
-            margin: 0 auto;
-            padding: 0 20px;
-            overflow: hidden;
-        }
+  nav {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    background: var(--white);
+    padding: 1rem 2rem;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+    z-index: 999;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
 
-        .py-1 { padding: 1rem 0; }
-        .py-2 { padding: 2rem 0; }
-        .py-3 { padding: 3rem 0; }
-        .py-4 { padding: 4rem 0; }
+  nav .logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--accent-dark);
+  }
 
-        .text-center { text-align: center; }
-        .text-primary { color: var(--primary-blue); }
-        .text-secondary { color: var(--primary-green); }
+  nav a {
+    color: var(--dark);
+    text-decoration: none;
+    font-weight: 600;
+    margin-left: 1.5rem;
+  }
 
-        /* Basic Button Styling */
-        .btn {
-            display: inline-block;
-            padding: 12px 30px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            text-decoration: none;
-            font-size: 1rem;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            box-shadow: 0 2px 5px var(--navbar-shadow);
-            position: relative;
-            z-index: 2;
-        }
-         .btn:disabled {
-             opacity: 0.6;
-             cursor: not-allowed;
-         }
+  section {
+    padding: 6rem 2rem;
+    max-width: 1300px;
+    margin: 0 auto;
+    position: relative;
+  }
 
-        .btn-primary {
-            background-color: var(--primary-blue);
-            color: #fff;
-            box-shadow: 0 4px 8px var(--button-shadow);
-        }
-        .btn-primary:hover:not(:disabled) {
-            background-color: #0069d9;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px var(--button-shadow);
-        }
+  .landing {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 3rem;
+  }
 
-        .btn-secondary {
-             background-color: var(--primary-green);
-             color: #fff;
-        }
-        .btn-secondary:hover:not(:disabled) {
-             background-color: #218838;
-             transform: translateY(-2px);
-        }
+  .landing .text { flex: 1 1 500px; }
 
+  .landing h1 {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: var(--accent-dark);
+  }
 
-        /* --- Page Sections --- */
+  .landing p {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    color: #333;
+  }
 
-        /* Navbar */
-        #navbar {
-            background: var(--background-light);
-            box-shadow: 0 2px 4px var(--navbar-shadow);
-            padding: 1rem 0;
-            position: sticky;
-            top: 0;
-            z-index: 10;
-        }
-        #navbar .container { display: flex; justify-content: space-between; align-items: center; }
-        #navbar .logo { font-size: 1.8rem; font-weight: 700; color: var(--primary-blue); text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem; }
-        #navbar .logo i { font-size: 1.5rem; color: var(--primary-blue); }
-        #navbar a.nav-link { color: var(--text-dark); text-decoration: none; padding: 8px 12px; border-radius: 4px; transition: background-color 0.2s ease, color 0.2s ease; }
-        #navbar a.nav-link:hover { color: var(--primary-blue); background-color: var(--light-blue-bg); }
+  .btn {
+    padding: 1rem 2rem;
+    border-radius: 100px;
+    font-weight: 600;
+    background: var(--accent);
+    color: white;
+    text-decoration: none;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+  }
 
-        /* Hero Section - Background Image with Overlay */
-        #hero {
-            background-image: linear-gradient(var(--overlay-blue), var(--overlay-blue)), url('Blue Labeled Plastic Bottles.jpg');
-            background-size: cover;
-            background-position: center center;
-            background-repeat: no-repeat;
-            background-color: var(--primary-blue); /* Fallback color */
-            color: #fff;
-            text-align: center;
-            padding: 5rem 0;
-            position: relative;
-            overflow: hidden;
-        }
-        #hero .container { position: relative; z-index: 2; }
-        #hero h1 { font-size: 2.8rem; font-weight: 700; margin-bottom: 1rem; color: #fff; text-shadow: 1px 1px 5px rgba(0,0,0,0.5); }
-        #hero p { font-size: 1.2rem; margin-bottom: 2rem; color: #f8f9fa; max-width: 600px; margin-left: auto; margin-right: auto; text-shadow: 1px 1px 3px rgba(0,0,0,0.4); }
+  .btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.2);
+  }
 
-        /* Story Section */
-        #story { background: var(--background-light); }
-        #story h2 { color: var(--primary-green); margin-bottom: 1rem; font-size: 1.8rem; }
-        #story p { max-width: 700px; margin-left: auto; margin-right: auto; color: var(--text-light); }
+  .mockup {
+    flex: 1 1 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 
-        /* Features Section */
-        #features { background: var(--background-grey); }
-        #features h2 { margin-bottom: 2.5rem; font-size: 1.8rem; color: var(--text-dark); }
-        .feature-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; }
-        .feature-item { background: var(--background-light); padding: 1.5rem; border-radius: 8px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.07); transition: transform 0.3s ease, box-shadow 0.3s ease; }
-        .feature-item:hover { transform: translateY(-5px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-        .feature-item i { font-size: 2.5rem; margin-bottom: 1rem; }
-        .feature-item .icon-blue { color: var(--primary-blue); }
-        .feature-item .icon-green { color: var(--primary-green); }
-        .feature-item h3 { font-size: 1.2rem; margin-bottom: 0.5rem; color: var(--text-dark); }
-        .feature-item p { font-size: 0.95rem; color: var(--text-light); }
+  .mockup img {
+    max-width: 280px;
+    height: auto;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    transform: rotate(-2deg);
+    transition: transform 0.3s ease;
+  }
 
-        /* Sign-Up Section */
-        #signup { background: var(--light-green-bg); text-align: center; }
-        #signup h2 { color: var(--primary-green); margin-bottom: 0.5rem; font-size: 1.8rem; }
-        #signup p { margin-bottom: 1.5rem; color: var(--text-light); }
-        #signup-form { max-width: 450px; margin: 0 auto; }
-        .form-group { text-align: left; margin-bottom: 1rem; }
-        .form-group label { display: block; margin-bottom: 0.5rem; font-weight: bold; color: var(--text-dark); }
-        .form-group input[type="text"],
-        .form-group input[type="email"] { width: 100%; padding: 12px; border: 1px solid #ced4da; border-radius: 5px; font-size: 1rem; background-color: #fff; transition: border-color 0.2s ease, box-shadow 0.2s ease; }
-        .form-group input[type="text"]:focus,
-        .form-group input[type="email"]:focus { border-color: var(--primary-blue); outline: none; box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.2); }
-        .checkbox-group { display: flex; align-items: flex-start; text-align: left; margin-bottom: 1rem; font-size: 0.9rem; color: var(--text-light); }
-        .checkbox-group input[type="checkbox"] { margin-right: 0.75rem; margin-top: 0.2rem; flex-shrink: 0; width: 1.1em; height: 1.1em; }
-        .checkbox-group label { font-weight: normal; margin-bottom: 0; }
-        .checkbox-group a { color: var(--primary-blue); text-decoration: underline; }
-        .checkbox-group a:hover { text-decoration: none; }
-        #form-status { margin-top: 1rem; font-weight: bold; min-height: 1.5em; }
-        .status-success { color: var(--success-green); }
-        .status-error { color: var(--danger-red); }
+  .mockup img:hover {
+    transform: rotate(0deg) scale(1.03);
+  }
 
-        /* Footer */
-        #footer { background: var(--text-dark); color: #adb5bd; text-align: center; padding: 1.5rem 0; font-size: 0.9rem; }
-        #footer a { color: #e9ecef; text-decoration: none; margin: 0 5px; }
-        #footer a:hover { text-decoration: underline; color: #fff; }
+  .counter-section {
+    background: #fff;
+    text-align: center;
+    padding: 4rem 2rem;
+    font-size: 1.3rem;
+  }
 
-        /* --- Mobile Adjustments --- */
-        @media (max-width: 768px) {
-            #hero h1 { font-size: 2.2rem; }
-            #hero p { font-size: 1.1rem; }
-            #hero { padding: 4rem 0; }
-            h2 { font-size: 1.6rem !important; }
-            .feature-grid { grid-template-columns: 1fr; }
-            #navbar .container { flex-direction: column; gap: 0.5rem; }
-            #navbar .logo { font-size: 1.6rem; }
-            #navbar .logo i { font-size: 1.3rem; }
-        }
+  .counter-section h2 { font-size: 2rem; margin-bottom: 1rem; }
 
-    </style>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  .counter-number {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--accent-dark);
+  }
+
+  .features {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 2rem;
+    margin-top: 4rem;
+  }
+
+  .feature {
+    background: var(--white);
+    padding: 2rem;
+    border-radius: 20px;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+    transition: all 0.3s ease;
+    text-align: center;
+  }
+
+  .feature:hover {
+    transform: translateY(-5px) scale(1.03);
+  }
+
+  .screenshots {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-top: 3rem;
+  }
+
+  .screenshots img {
+    max-width: 200px;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+  }
+
+  .screenshots img:hover {
+    transform: scale(1.08);
+  }
+
+  .form-toggle {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+
+  .form-toggle button {
+    background-color: var(--accent);
+    border: none;
+    color: white;
+    padding: 1rem 2rem;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+  }
+
+  .form-toggle button:hover {
+    background-color: var(--accent-dark);
+    transform: scale(1.05);
+  }
+
+  .form-toggle button:first-child::before {
+    content: '👤 ';
+  }
+
+  .form-toggle button:last-child::before {
+    content: '🏪 ';
+  }
+
+  .form-modal {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.4);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.4s ease;
+  }
+
+  .form-modal.active {
+    display: flex;
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .form-box {
+    background: white;
+    padding: 2rem;
+    border-radius: 16px;
+    max-width: 400px;
+    width: 90%;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.2);
+  }
+
+  .form-box h3 { margin-bottom: 1rem; }
+
+  .form-box input, .form-box textarea {
+    width: 100%;
+    padding: 0.75rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-family: inherit;
+  }
+
+  .form-box label { font-size: 0.9rem; display: block; margin-bottom: 0.3rem; }
+
+  .form-box .checkbox {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+
+  .form-box .checkbox input { margin-right: 0.5rem; }
+
+  .form-box button {
+    background: var(--accent-dark);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+
+  .form-box button:hover { background: var(--accent); }
+
+  footer {
+    background: var(--accent-dark);
+    color: white;
+    padding: 3rem 2rem;
+    text-align: center;
+  }
+</style>
+
+  </style>
 </head>
 <body>
+  <nav>
+    <div class="logo">Fillr</div>
+    <div>
+      <a href="#features">Features</a>
+      <a href="#signup">Sign Up</a>
+    </div>
+  </nav>
 
-    <nav id="navbar"> <div class="container"> <a href="#" class="logo"> <i class="fas fa-tint"></i> Fillr </a> <a href="#signup" class="nav-link scroll-link">Sign Up</a> </div> </nav>
+  <section class="landing">
+    <div class="text">
+      <h1>Refill. Reuse. Reward.</h1>
+      <p>Discover refill stations, get rewarded for reusing, and inspire change — all in one social, sustainable app experience.</p>
+      <a href="#signup" class="btn">🌍 Join the Refill Revolution</a>
+    </div>
+    <div class="mockup">
+      <img src="MapViewMay.PNG" alt="App Screenshot" />
+    </div>
+  </section>
 
-    <section id="hero" class="py-4"> <div class="container"> <h1>Find Water Refill Stations & Reduce Plastic Waste</h1> <p>Easily locate free and paid water refill points near you with Fillr. Stay hydrated and help the planet, one refill at a time.</p> <a href="#signup" class="btn btn-primary scroll-link">Notify Me on Launch!</a> </div> </section>
+  <section class="counter-section">
+    <h2>🌍 Single-Use Waste Generated Today</h2>
+    <p><span class="counter-number" id="counter">0</span> bottles, cups & bags wasted worldwide</p>
+  </section>
 
-    <section id="story" class="py-3"> <div class="container"> <h2 class="text-center text-secondary">Tired of Single-Use Plastic? So Were We.</h2> <p class="text-center">Ever found yourself on the road, desperately needing to refill your water bottle, only to find no obvious options? Our founder did, constantly. Buying yet another plastic bottle felt wasteful and unnecessary. That frustration sparked the idea for Fillr – an app built to make finding water refill stations simple and accessible for everyone. We believe staying hydrated shouldn't cost the planet.</p> </div> </section>
+  <section>
+    <h2 style="text-align: center; font-size: 2.4rem; margin-bottom: 3rem;">🚰 Discover Eco Refill Spots</h2>
+    <div class="features">
+      <div class="feature">
+        <h3>🌍 Map-Based Discovery</h3>
+        <p>Find refill stations, cafés and stores offering reuse perks near you.</p>
+      </div>
+      <div class="feature">
+        <h3>📸 Photo Check-ins</h3>
+        <p>Log your reusable moments and showcase them to the world.</p>
+      </div>
+      <div class="feature">
+        <h3>💸 Discounts for Green Habits</h3>
+        <p>Bring your own bottle or cup and unlock business rewards.</p>
+      </div>
+      <div class="feature">
+        <h3>👥 Social Eco-Profiles</h3>
+        <p>Track your impact and explore the planet-saving journeys of others.</p>
+      </div>
+    </div>
+  </section>
 
-    <section id="features" class="py-3"> <div class="container"> <h2 class="text-center">Discover, Refill, Contribute</h2> <div class="feature-grid"> <div class="feature-item"> <i class="fas fa-map-marked-alt icon-blue"></i> <h3>Find Stations</h3> <p>Discover nearby water refill stations like fountains, cafes, shops, and public taps on an interactive map.</p> </div> <div class="feature-item"> <i class="fas fa-filter icon-green"></i> <h3>Filter Your Search</h3> <p>Easily filter locations by type and cost (Free, With Purchase, Paid) to find exactly what you need.</p> </div> <div class="feature-item"> <i class="fas fa-info-circle icon-blue"></i> <h3>Get Details</h3> <p>View station specifics, user-submitted photos, ratings, and helpful reviews before you go.</p> </div> <div class="feature-item"> <i class="fas fa-plus-circle icon-green"></i> <h3>Add New Spots</h3> <p>Found a refill station not on the map? Add it easily with photos and details to help the community grow.</p> </div> <div class="feature-item"> <i class="fas fa-heart icon-blue"></i> <h3>Save Favorites</h3> <p>Keep track of your go-to refill locations for quick access later.</p> </div> <div class="feature-item"> <i class="fas fa-leaf icon-green"></i> <h3>Track Your Impact</h3> <p>See an estimate of the plastic bottles you've helped save by refilling.</p> </div> </div> </div> </section>
+  <section id="signup">
+    <h2 style="text-align: center; font-size: 2.4rem;">📝 Get Involved</h2>
+    <div class="form-toggle">
+      <button onclick="document.getElementById('refillerForm').classList.add('active')">I’m a Refiller</button>
+      <button onclick="document.getElementById('businessForm').classList.add('active')">I’m a Business</button>
+    </div>
+  </section>
 
-    <section id="signup" class="py-3"> <div class="container"> <h2>Be the First to Know!</h2> <p>Fillr is launching soon. Sign up below for launch updates and optional monthly news!</p> <form id="signup-form" method="POST" action="https://script.google.com/macros/s/AKfycbwVv2pOZBkgRM2eJZ8GWBiZm2li4r44kYiLZr7BTAq_F9SgAHRLsZvvIcCIl_SPJQYM/exec"> <div class="form-group"> <label for="name">Name:</label> <input type="text" id="name" name="name" required> </div> <div class="form-group"> <label for="email">Email Address:</label> <input type="email" id="email" name="email" required> </div> <div class="checkbox-group"> <input type="checkbox" id="privacy-consent" name="privacyConsent" value="true" required> <label for="privacy-consent"> I agree to Fillr storing my name and email to notify me about the app launch. I have read and agree to the <a href="./privacy-policy.html" target="_blank">Privacy Policy</a>. <span style="color:red;">*</span> </label> </div> <div class="checkbox-group"> <input type="checkbox" id="newsletter-optin" name="newsletterOptin" value="true"> <label for="newsletter-optin"> Yes, I'd also like to receive the optional Fillr monthly newsletter with app updates, impact stories, and case studies. (You can unsubscribe anytime). </label> </div> <button type="submit" id="submit-button" class="btn btn-secondary">Keep Me Updated!</button> <p id="form-status"></p> </form> </div> </section>
+  <section>
+    <h2 style="text-align: center; font-size: 2.4rem;">📱 App in Action</h2>
+    <div class="screenshots">
+      <img src="MapViewMay.PNG" alt="Map View" />
+      <img src="ProfileViewMay.PNG" alt="Profile Overview" />
+      <img src="FiltersViewMay.PNG" alt="Filter Options" />
+      <img src="AddStationMay.PNG" alt="Add Refill Point" />
+    </div>
+  </section>
 
-    <footer id="footer"> <div class="container"> <p>© 2025 Fillr. All rights reserved.</p> </div> </footer>
+  <div id="refillerForm" class="form-modal">
+    <div class="form-box">
+      <h3>Join as a Refiller</h3>
+      <label>Name</label><input type="text" id="rname">
+      <label>Email</label><input type="email" id="remail">
+      <div class="checkbox"><input type="checkbox" id="rconsent"> <label for="rconsent">I consent to Fillr storing my info to contact me.</label></div>
+      <div class="checkbox"><input type="checkbox" id="rnews"> <label for="rnews">Sign me up for the newsletter.</label></div>
+      <button onclick="submitForm('refiller')">Submit</button>
+    </div>
+  </div>
 
-    <script>
-        // --- Smooth Scrolling ---
-        const scrollLinks = document.querySelectorAll('.scroll-link, a[href^="#"].nav-link');
-         scrollLinks.forEach(link => {
-             link.addEventListener('click', function(e) {
-                 const href = this.getAttribute('href');
-                 if (href.startsWith('#') && href.length > 1) {
-                     e.preventDefault();
-                     const targetId = href.substring(1);
-                     const targetElement = document.getElementById(targetId);
-                     if (targetElement) {
-                          const navbar = document.getElementById('navbar');
-                          const navbarHeight = navbar ? navbar.offsetHeight : 0;
-                          const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - navbarHeight - 10;
-                          window.scrollTo({ top: targetPosition, behavior: 'smooth' });
-                     }
-                 }
-             });
-         });
+  <div id="businessForm" class="form-modal">
+    <div class="form-box">
+      <h3>Register Your Business</h3>
+      <label>Name</label><input type="text" id="bname">
+      <label>Business Email</label><input type="email" id="bemail">
+      <label>Business Name</label><input type="text" id="bcompany">
+      <label>Location</label><input type="text" id="blocation">
+      <div class="checkbox"><input type="checkbox" id="bconsent"> <label for="bconsent">I consent to Fillr storing my info to contact me.</label></div>
+      <div class="checkbox"><input type="checkbox" id="bnews"> <label for="bnews">Sign me up for the newsletter.</label></div>
+      <button onclick="submitForm('business')">Submit</button>
+    </div>
+  </div>
 
-        // --- Form Submission with Fetch ---
-        const signupForm = document.getElementById('signup-form');
-        const submitButton = document.getElementById('submit-button');
-        const formStatus = document.getElementById('form-status');
-          signupForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            const nameInput = document.getElementById('name');
-            const emailInput = document.getElementById('email');
-            const privacyConsent = document.getElementById('privacy-consent');
-            const scriptURL = signupForm.action;
-            formStatus.textContent = '';
-            formStatus.className = '';
+  <footer>
+    &copy; 2025 Fillr. Refill everything. Inspire everyone. Launching soon.
+  </footer>
 
-            if (nameInput.value.trim() === '' || emailInput.value.trim() === '') {
-                formStatus.textContent = 'Please enter both name and email.';
-                formStatus.className = 'status-error'; return;
-            }
-            if (!privacyConsent.checked) {
-                formStatus.textContent = 'You must agree to the Privacy Policy to sign up.';
-                formStatus.className = 'status-error'; return;
-            }
+  <script>
+    const scriptURL = "https://script.google.com/macros/s/AKfycbyVwSjmj9LtiLK84MR-Pf3SnNE9rOJcBFozVRfquljFk7O1XkO2IfcVRkws5RlZq5Y7kA/exec";
 
-            submitButton.disabled = true;
-            submitButton.textContent = 'Submitting...';
-            const formData = new FormData(signupForm);
+    function submitForm(type) {
+      let name, email, newsletter, consent, refiller, business;
+      if (type === 'refiller') {
+        name = document.getElementById('rname').value;
+        email = document.getElementById('remail').value;
+        newsletter = document.getElementById('rnews').checked;
+        consent = document.getElementById('rconsent').checked;
+        refiller = 'Yes'; business = 'No';
+        document.getElementById('refillerForm').classList.remove('active');
+      } else {
+        name = document.getElementById('bname').value;
+        email = document.getElementById('bemail').value;
+        newsletter = document.getElementById('bnews').checked;
+        consent = document.getElementById('bconsent').checked;
+        refiller = 'No'; business = 'Yes';
+        document.getElementById('businessForm').classList.remove('active');
+      }
+      if (!name || !email || !consent) return alert("Please fill in required fields and accept consent.");
+      const data = {
+        Name: name,
+        Email: email,
+        NewsletterOptIn: newsletter ? "Yes" : "No",
+        'Refiller Y/N': refiller,
+        'Businesss Y/N': business
+      };
+      fetch(scriptURL, {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: { "Content-Type": "application/json" }
+      })
+      .then(res => res.json())
+      .then(res => alert("Thank you! Your submission was received."))
+      .catch(err => alert("Oops! Something went wrong."));
+    }
 
-            fetch(scriptURL, { method: 'POST', body: formData })
-            .then(response => {
-                 if (response.ok || response.type === 'opaque') {
-                     formStatus.textContent = `Thank you, ${nameInput.value}! We'll be in touch.`;
-                     formStatus.className = 'status-success';
-                     signupForm.reset();
-                 } else { throw new Error(`Network response was not ok: ${response.statusText}`); }
-             })
-            .catch(error => {
-                console.error('Error submitting form:', error);
-                formStatus.textContent = 'Oops! Something went wrong. Please try again later.';
-                formStatus.className = 'status-error';
-            })
-            .finally(() => {
-                 submitButton.disabled = false;
-                 submitButton.textContent = 'Keep Me Updated!';
-             });
+    window.addEventListener('DOMContentLoaded', () => {
+      let count = 0;
+      const el = document.getElementById('counter');
+      const target = 245238;
+      const increment = Math.ceil(target / 300);
+      const interval = setInterval(() => {
+        count += increment;
+        if (count >= target) {
+          count = target;
+          clearInterval(interval);
+        }
+        el.textContent = count.toLocaleString();
+      }, 10);
+
+      // Close modals when clicking outside
+      document.querySelectorAll('.form-modal').forEach(modal => {
+        modal.addEventListener('click', (e) => {
+          if (e.target === modal) modal.classList.remove('active');
         });
-
-        // --- Fade-in on Scroll ---
-        const sections = document.querySelectorAll('section');
-        const revealSection = (entries, observer) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = 1;
-                    entry.target.style.transform = 'translateY(0)';
-                }
-            });
-        };
-        const sectionObserver = new IntersectionObserver(revealSection, { root: null, threshold: 0.1 });
-         sections.forEach(section => {
-             if (section.id !== 'hero') {
-                 section.style.opacity = 0;
-                 section.style.transform = 'translateY(30px)';
-                 section.style.transition = 'opacity 0.8s ease-out, transform 0.8s ease-out';
-             }
-             sectionObserver.observe(section);
-         });
-        const heroSection = document.getElementById('hero');
-        if (heroSection) { heroSection.style.opacity = 1; heroSection.style.transform = 'translateY(0)'; }
-
-    </script>
-
+      });
+    });
+  </script>
 </body>
 </html>
