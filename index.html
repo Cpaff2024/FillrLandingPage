@@ -347,8 +347,19 @@
       <h3>Join as a Refiller</h3>
       <label>Name</label><input type="text" id="rname">
       <label>Email</label><input type="email" id="remail">
-      <div class="checkbox"><input type="checkbox" id="rconsent"> <label for="rconsent">I consent to Fillr storing my info to contact me.</label></div>
-      <div class="checkbox"><input type="checkbox" id="rnews"> <label for="rnews">Sign me up for the newsletter.</label></div>
+      <div class="checkbox" style="flex-direction: row; justify-content: flex-start; text-align: left;">
+        <input type="checkbox" id="rconsent">
+        <label for="rconsent">
+          I agree to Fillr storing my name and email to notify me about the app launch.
+          I have read and agree to the <a href="#" target="_blank">Privacy Policy</a>.
+        </label>
+      </div>
+      <div class="checkbox" style="flex-direction: row; justify-content: flex-start; text-align: left;">
+        <input type="checkbox" id="rnews">
+        <label for="rnews">
+          Yes, I’d also like to receive the optional Fillr monthly newsletter with app updates, impact stories, and case studies. (You can unsubscribe anytime.)
+        </label>
+      </div>
       <button onclick="submitForm('refiller')">Submit</button>
     </div>
   </div>
@@ -360,8 +371,20 @@
       <label>Business Email</label><input type="email" id="bemail">
       <label>Business Name</label><input type="text" id="bcompany">
       <label>Location</label><input type="text" id="blocation">
-      <div class="checkbox"><input type="checkbox" id="bconsent"> <label for="bconsent">I consent to Fillr storing my info to contact me.</label></div>
-      <div class="checkbox"><input type="checkbox" id="bnews"> <label for="bnews">Sign me up for the newsletter.</label></div>
+      <div class="checkbox" style="flex-direction: row-reverse; justify-content: flex-end; text-align: left;">
+        <input type="checkbox" id="bconsent">
+        <label for="bconsent">
+          I agree to Fillr storing my name and email to notify me about the app launch.
+          I have read and agree to the <a href="#" target="_blank">Privacy Policy</a>.
+        </label>
+      </div>
+      <div class="checkbox" style="flex-direction: row-reverse; justify-content: flex-end; text-align: left;">
+        <input type="checkbox" id="bnews">
+        <label for="bnews">
+          Yes, I’d also like to receive the optional Fillr monthly newsletter with app updates, impact stories, and case studies. (You can unsubscribe anytime.)
+        </label>
+      </div>
+      
       <button onclick="submitForm('business')">Submit</button>
     </div>
   </div>
