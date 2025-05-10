@@ -200,31 +200,31 @@
 
   /* Styling for the "Why Fillr" section (Our Story) */
   .why-section {
-    background-color: var(--white); /* Or var(--bg) if you prefer a subtle difference */
-    padding: 4rem 1.5rem; /* Mobile first padding */
+    background-color: var(--white);
+    padding: 4rem 1.5rem;
     text-align: center;
   }
 
   .why-section-content {
-    max-width: 750px; /* Constrain width for readability */
-    margin: 0 auto; /* Center the content block */
+    max-width: 750px;
+    margin: 0 auto;
   }
 
-  .why-section h2 { /* This will override section > h2 for this specific section if needed, or make it more specific */
-    font-size: 1.8rem; /* Mobile first heading size */
+  .why-section h2 {
+    font-size: 1.8rem;
     color: var(--accent-dark);
     margin-bottom: 1.5rem;
   }
 
   .why-section p {
-    font-size: 1rem; /* Mobile first paragraph size */
-    line-height: 1.7; /* Improve readability */
-    color: #333; /* Or var(--dark) */
+    font-size: 1rem;
+    line-height: 1.7;
+    color: #333;
     margin-bottom: 1rem;
   }
 
   .why-section p:last-child {
-    margin-bottom: 0; /* Remove bottom margin from the last paragraph */
+    margin-bottom: 0;
   }
 
 
@@ -420,7 +420,7 @@
     .landing { flex-direction: row; text-align: left; align-items: center; gap: 3rem; }
     .landing .text { flex: 1 1 500px; order: 0; }
     .landing h1 { font-size: 2.8rem; }
-    .landing p { font-size: 1.1rem; margin-bottom: 1.5rem; } /* Adjusted existing p */
+    .landing p { font-size: 1.1rem; margin-bottom: 1.5rem; }
 
     .landing-subheadline { font-size: 1.8rem; margin-top: 1.5rem;}
     .landing-secondary-text { font-size: 1.1rem; margin-bottom: 2rem;}
@@ -466,7 +466,6 @@
 
   @media (min-width: 1024px) {
     .landing h1 { font-size: 3rem; }
-    /* .landing p { font-size: 1.2rem; } */ /* Keep original p slightly smaller if new text is more prominent */
 
     .landing-subheadline { font-size: 2rem; }
     .landing-secondary-text { font-size: 1.2rem;}
@@ -518,7 +517,8 @@
     <div class="logo">Fillr</div>
     <div>
       <a href="#features">Features</a>
-      <a href="#our-story">Our Story</a> <a href="#signup">Sign Up</a>
+      <a href="#our-story">Our Story</a>
+      <a href="#signup">Sign Up</a>
     </div>
   </nav>
 
@@ -567,8 +567,8 @@
   <section id="our-story" class="why-section">
     <div class="why-section-content">
       <h2>The Spark Behind Fillr</h2>
-      <p>The idea for Fillr began with a common frustration: being on the go with a reusable water bottle, yet struggling to find convenient, reliable places to refill. The unnecessary cycle of purchasing single-use plastic, despite best intentions, was the catalyst. <p><b>Fillr was conceived to solve this.</b> </p></p>
-      <p>It soon became clear, however, that the potential extended far beyond water. From coffee cups to lunch containers, any item that can be 'refilled' represents an opportunity to reduce waste. <P><b>Fillr's mission expanded:</b> to create a platform where these eco-friendly choices are easily discovered, shared, and encouraged across our community.</P></p>
+      <p>The idea for Fillr began with a common frustration: being on the go with a reusable water bottle, yet struggling to find convenient, reliable places to refill. The unnecessary cycle of purchasing single-use plastic, despite best intentions, was the catalyst. Fillr was conceived to solve this.</p>
+      <p>It soon became clear, however, that the potential extended far beyond water. From coffee cups to lunch containers, any item that can be 'refilled' represents an opportunity to reduce waste. Fillr's mission expanded: to create a platform where these eco-friendly choices are easily discovered, shared, and encouraged across our community.</p>
     </div>
   </section>
 
@@ -641,12 +641,16 @@
   </footer>
 
   <script>
-    const scriptURL = "https://script.google.com/macros/s/AKfycbyQUB1VF4N4yErEXFJ46MFLn158vKQqlP54jSF0AgYQwYaVHeTv40G9IwHq0PgZutfXpg/exec";
+    // UPDATED SCRIPT URLS
+    const refillerScriptURL = "https://script.google.com/macros/s/AKfycbxyNGM6EurSB5P8G8LK9CY46-QaHTQHOF2Mx-GHSPRPxezgfPnE-XUhbNFSR9LxgwBOOQ/exec";
+    const businessScriptURL = "https://script.google.com/macros/s/AKfycbzFlQVq03df4SzOLPH5homTtbSmR3_7a_jiXx8WntLiH_UxGskvOxRj3-_45jFMagA/exec";
 
     function submitForm(type) {
       let nameInput, emailInput, newsletterCheckbox, consentCheckbox;
       let formId, companyInput, locationInput;
-      let isRefiller, isBusiness;
+      // isRefiller and isBusiness variables are not directly used by the new separate Apps Scripts
+      // but can be kept if you have other client-side logic for them.
+      // let isRefiller, isBusiness; 
       let currentFormModal;
 
       if (type === 'refiller') {
@@ -655,7 +659,7 @@
         newsletterCheckbox = document.getElementById('rnews');
         consentCheckbox = document.getElementById('rconsent');
         formId = 'refillerForm';
-        isRefiller = 'Yes'; isBusiness = 'No';
+        // isRefiller = 'Yes'; isBusiness = 'No'; // Not strictly needed for separate script submission
         currentFormModal = document.getElementById(formId);
       } else { // business
         nameInput = document.getElementById('bname');
@@ -665,7 +669,7 @@
         newsletterCheckbox = document.getElementById('bnews');
         consentCheckbox = document.getElementById('bconsent');
         formId = 'businessForm';
-        isRefiller = 'No'; isBusiness = 'Yes';
+        // isRefiller = 'No'; business = 'Yes'; // Not strictly needed for separate script submission
         currentFormModal = document.getElementById(formId);
       }
 
@@ -685,13 +689,11 @@
         alert("Please agree to the terms to proceed.");
         return;
       }
-
+      
       const data = {
         Name: name,
         Email: email,
         NewsletterOptIn: newsletterCheckbox.checked ? "Yes" : "No",
-        'Refiller Y/N': isRefiller,
-        'Businesss Y/N': isBusiness
       };
 
       if (type === 'business') {
@@ -708,31 +710,42 @@
       submitButton.textContent = 'Submitting...';
       submitButton.disabled = true;
 
-      fetch(scriptURL, {
+      let targetScriptURL;
+      if (type === 'refiller') {
+        targetScriptURL = refillerScriptURL;
+      } else { // 'business'
+        targetScriptURL = businessScriptURL;
+      }
+
+      fetch(targetScriptURL, {
         method: "POST",
         body: JSON.stringify(data),
         headers: { "Content-Type": "application/json" }
       })
       .then(response => {
         if (!response.ok) {
-            return response.json().catch(() => {
+            return response.json().then(errData => {
+                throw new Error(errData.message || `Server responded with ${response.status}: ${response.statusText}`);
+            }).catch(() => {
                 throw new Error(`Server responded with ${response.status}: ${response.statusText}`);
-            }).then(errorData => {
-                throw new Error(errorData.error || `Server error: ${response.status}`);
             });
         }
         return response.json();
       })
       .then(resData => {
-        alert("Thank you! Your submission was received.");
-        if(currentFormModal) currentFormModal.classList.remove('active');
-        nameInput.value = '';
-        emailInput.value = '';
-        newsletterCheckbox.checked = false;
-        consentCheckbox.checked = false;
-        if (type === 'business') {
-            companyInput.value = '';
-            locationInput.value = '';
+        if (resData.result === "success") {
+            alert("Thank you! Your submission was received: " + (resData.message || ""));
+            if(currentFormModal) currentFormModal.classList.remove('active');
+            nameInput.value = '';
+            emailInput.value = '';
+            newsletterCheckbox.checked = false;
+            consentCheckbox.checked = false;
+            if (type === 'business') {
+                companyInput.value = '';
+                locationInput.value = '';
+            }
+        } else {
+             throw new Error(resData.message || "Submission failed. Please try again.");
         }
       })
       .catch(err => {
@@ -752,7 +765,7 @@
       const duration = 2000;
       const incrementStep = target / (duration / 10);
 
-      if (el) { // Check if counter element exists
+      if (el) {
         const interval = setInterval(() => {
           count += incrementStep;
           if (count >= target) {
