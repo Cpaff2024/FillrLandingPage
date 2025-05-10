@@ -641,16 +641,13 @@
   </footer>
 
   <script>
-    // UPDATED SCRIPT URLS
+    // === UPDATED SCRIPT URLS ===
     const refillerScriptURL = "https://script.google.com/macros/s/AKfycbxyNGM6EurSB5P8G8LK9CY46-QaHTQHOF2Mx-GHSPRPxezgfPnE-XUhbNFSR9LxgwBOOQ/exec";
     const businessScriptURL = "https://script.google.com/macros/s/AKfycbzFlQVq03df4SzOLPH5homTtbSmR3_7a_jiXx8WntLiH_UxGskvOxRj3-_45jFMagA/exec";
 
     function submitForm(type) {
       let nameInput, emailInput, newsletterCheckbox, consentCheckbox;
       let formId, companyInput, locationInput;
-      // isRefiller and isBusiness variables are not directly used by the new separate Apps Scripts
-      // but can be kept if you have other client-side logic for them.
-      // let isRefiller, isBusiness; 
       let currentFormModal;
 
       if (type === 'refiller') {
@@ -659,7 +656,6 @@
         newsletterCheckbox = document.getElementById('rnews');
         consentCheckbox = document.getElementById('rconsent');
         formId = 'refillerForm';
-        // isRefiller = 'Yes'; isBusiness = 'No'; // Not strictly needed for separate script submission
         currentFormModal = document.getElementById(formId);
       } else { // business
         nameInput = document.getElementById('bname');
@@ -669,7 +665,6 @@
         newsletterCheckbox = document.getElementById('bnews');
         consentCheckbox = document.getElementById('bconsent');
         formId = 'businessForm';
-        // isRefiller = 'No'; business = 'Yes'; // Not strictly needed for separate script submission
         currentFormModal = document.getElementById(formId);
       }
 
@@ -726,7 +721,7 @@
         if (!response.ok) {
             return response.json().then(errData => {
                 throw new Error(errData.message || `Server responded with ${response.status}: ${response.statusText}`);
-            }).catch(() => {
+            }).catch(() => { // If parsing errorData as JSON also fails
                 throw new Error(`Server responded with ${response.status}: ${response.statusText}`);
             });
         }
@@ -744,13 +739,13 @@
                 companyInput.value = '';
                 locationInput.value = '';
             }
-        } else {
+        } else { // If Apps Script returns {result: "error", message: "..."}
              throw new Error(resData.message || "Submission failed. Please try again.");
         }
       })
       .catch(err => {
-        console.error("Submission error:", err);
-        alert("Oops! Something went wrong. \n" + err.message + "\nPlease try again.");
+        console.error("Submission error Details:", err); // Log the full error object
+        alert("Oops! Something went wrong. \n" + err.message + "\nPlease check the console for more details and try again.");
       })
       .finally(() => {
           submitButton.textContent = originalButtonText;
