@@ -81,24 +81,23 @@
     color: var(--accent-dark);
   }
 
-  .landing p { /* This targets the original paragraph */
+  .landing p { 
     font-size: 1rem;
-    margin-bottom: 1rem; /* Adjusted margin for spacing before new text */
+    margin-bottom: 1rem; 
     color: #333;
   }
 
-  /* Styles for the new copy in landing section */
   .landing-subheadline {
     margin-top: 1.5rem;
     margin-bottom: 0.5rem;
-    font-size: 1.5rem; /* Adjusted for mobile */
+    font-size: 1.5rem; 
     color: var(--accent-dark);
     font-weight: 600;
   }
 
   .landing-secondary-text {
-    font-size: 1rem; /* Adjusted for mobile */
-    margin-bottom: 1.5rem; /* Adjusted margin before button */
+    font-size: 1rem; 
+    margin-bottom: 1.5rem; 
     color: #333;
     line-height: 1.6;
   }
@@ -161,11 +160,11 @@
     color: var(--accent-dark);
   }
 
-  h2 { /* General h2 for sections */
+  h2 { 
     font-size: 2rem;
   }
 
-  section > h2 { /* Section titles */
+  section > h2 { 
      font-size: 1.8rem !important;
      margin-bottom: 2rem !important;
      text-align: center;
@@ -198,7 +197,6 @@
     transform: translateY(-5px) scale(1.03);
   }
 
-  /* Styling for the "Why Fillr" section (Our Story) */
   .why-section {
     background-color: var(--white);
     padding: 4rem 1.5rem;
@@ -593,46 +591,60 @@
   <div id="refillerForm" class="form-modal">
     <div class="form-box">
       <h3>Join as a Refiller</h3>
-      <label for="rname">Name</label><input type="text" id="rname" name="rname">
-      <label for="remail">Email</label><input type="email" id="remail" name="remail">
-      <div class="checkbox">
-        <input type="checkbox" id="rconsent" name="rconsent">
-        <label for="rconsent">
-          I agree to Fillr storing my name and email to notify me about the app launch.
-          I have read and agree to the <a href="#" target="_blank">Privacy Policy</a>.
-        </label>
-      </div>
-      <div class="checkbox">
-        <input type="checkbox" id="rnews" name="rnews">
-        <label for="rnews">
-          Yes, I’d also like to receive the optional Fillr monthly newsletter with app updates, impact stories, and case studies. (You can unsubscribe anytime.)
-        </label>
-      </div>
-      <button type="submit" onclick="submitForm('refiller')">Submit</button>
+      <form id="fillrRefillerForm" action="https://formspree.io/f/mvgawkkb" method="POST">
+        <label for="rname">Name</label>
+        <input type="text" id="rname" name="Name" required>
+
+        <label for="remail">Email</label>
+        <input type="email" id="remail" name="Email" required>
+
+        <div class="checkbox">
+          <input type="checkbox" id="rconsent" name="ConsentToStore" value="AgreedToTerms" required>
+          <label for="rconsent">
+            I agree to Fillr storing my name and email to notify me about the app launch.
+            I have read and agree to the <a href="#" target="_blank">Privacy Policy</a>.
+          </label>
+        </div>
+        <div class="checkbox">
+          <input type="checkbox" id="rnews" name="NewsletterOptIn" value="Yes">
+          <label for="rnews">
+            Yes, I’d also like to receive the optional Fillr monthly newsletter with app updates, impact stories, and case studies. (You can unsubscribe anytime.)
+          </label>
+        </div>
+        <button type="submit">Submit</button>
+      </form>
     </div>
   </div>
 
   <div id="businessForm" class="form-modal">
     <div class="form-box">
       <h3>Register Your Business</h3>
-      <label for="bname">Name</label><input type="text" id="bname" name="bname">
-      <label for="bemail">Business Email</label><input type="email" id="bemail" name="bemail">
-      <label for="bcompany">Business Name</label><input type="text" id="bcompany" name="bcompany">
-      <label for="blocation">Location</label><input type="text" id="blocation" name="blocation">
-      <div class="checkbox">
-        <input type="checkbox" id="bconsent" name="bconsent">
-        <label for="bconsent">
-          I agree to Fillr storing my name and email to notify me about the app launch.
-          I have read and agree to the <a href="#" target="_blank">Privacy Policy</a>.
-        </label>
-      </div>
-      <div class="checkbox">
-        <input type="checkbox" id="bnews" name="bnews">
-        <label for="bnews">
-          Yes, I’d also like to receive the optional Fillr monthly newsletter with app updates, impact stories, and case studies. (You can unsubscribe anytime.)
-        </label>
-      </div>
-      <button type="submit" onclick="submitForm('business')">Submit</button>
+      <form id="fillrBusinessForm" action="https://formspree.io/f/xyzwnewy" method="POST">
+        <label for="bname">Your Name</label> <input type="text" id="bname" name="ContactName" required>
+
+        <label for="bemail">Business Email</label>
+        <input type="email" id="bemail" name="BusinessEmail" required>
+
+        <label for="bcompany">Business Name</label>
+        <input type="text" id="bcompany" name="BusinessName" required>
+
+        <label for="blocation">Location (Town/City)</label> <input type="text" id="blocation" name="BusinessLocation" required>
+
+        <div class="checkbox">
+          <input type="checkbox" id="bconsent" name="ConsentToStore" value="AgreedToTerms" required>
+          <label for="bconsent">
+            I agree to Fillr storing my name and email to notify me about the app launch.
+            I have read and agree to the <a href="#" target="_blank">Privacy Policy</a>.
+          </label>
+        </div>
+        <div class="checkbox">
+          <input type="checkbox" id="bnews" name="NewsletterOptIn" value="Yes">
+          <label for="bnews">
+            Yes, I’d also like to receive the optional Fillr monthly newsletter with app updates, impact stories, and case studies. (You can unsubscribe anytime.)
+          </label>
+        </div>
+        <button type="submit">Submit</button>
+      </form>
     </div>
   </div>
 
@@ -641,116 +653,17 @@
   </footer>
 
   <script>
-    // === UPDATED SCRIPT URLS ===
-    const refillerScriptURL = "https://script.google.com/macros/s/AKfycbxyNGM6EurSB5P8G8LK9CY46-QaHTQHOF2Mx-GHSPRPxezgfPnE-XUhbNFSR9LxgwBOOQ/exec";
-    const businessScriptURL = "https://script.google.com/macros/s/AKfycbzFlQVq03df4SzOLPH5homTtbSmR3_7a_jiXx8WntLiH_UxGskvOxRj3-_45jFMagA/exec";
+    // Google Apps Script URLs are no longer needed as both forms use Formspree
+    // const refillerScriptURL = "YOUR_OLD_REFILLER_APPS_SCRIPT_URL";
+    // const businessScriptURL = "YOUR_OLD_BUSINESS_APPS_SCRIPT_URL"; 
 
+    // The submitForm function is no longer needed for direct HTML form submissions to Formspree.
+    // You can remove it or leave it empty if no other JavaScript interactions are planned for form submission.
     function submitForm(type) {
-      let nameInput, emailInput, newsletterCheckbox, consentCheckbox;
-      let formId, companyInput, locationInput;
-      let currentFormModal;
-
-      if (type === 'refiller') {
-        nameInput = document.getElementById('rname');
-        emailInput = document.getElementById('remail');
-        newsletterCheckbox = document.getElementById('rnews');
-        consentCheckbox = document.getElementById('rconsent');
-        formId = 'refillerForm';
-        currentFormModal = document.getElementById(formId);
-      } else { // business
-        nameInput = document.getElementById('bname');
-        emailInput = document.getElementById('bemail');
-        companyInput = document.getElementById('bcompany');
-        locationInput = document.getElementById('blocation');
-        newsletterCheckbox = document.getElementById('bnews');
-        consentCheckbox = document.getElementById('bconsent');
-        formId = 'businessForm';
-        currentFormModal = document.getElementById(formId);
-      }
-
-      const name = nameInput.value.trim();
-      const email = emailInput.value.trim();
-      const consent = consentCheckbox.checked;
-
-      if (!name || !email) {
-        alert("Please fill in your name and email.");
-        return;
-      }
-      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-        alert("Please enter a valid email address.");
-        return;
-      }
-      if (!consent) {
-        alert("Please agree to the terms to proceed.");
-        return;
-      }
-      
-      const data = {
-        Name: name,
-        Email: email,
-        NewsletterOptIn: newsletterCheckbox.checked ? "Yes" : "No",
-      };
-
-      if (type === 'business') {
-        data['Business Name'] = companyInput.value.trim();
-        data['Location'] = locationInput.value.trim();
-        if (!data['Business Name'] || !data['Location']) {
-            alert("Please fill in Business Name and Location for business sign-ups.");
-            return;
-        }
-      }
-      
-      const submitButton = currentFormModal.querySelector('button[type="submit"]');
-      const originalButtonText = submitButton.textContent;
-      submitButton.textContent = 'Submitting...';
-      submitButton.disabled = true;
-
-      let targetScriptURL;
-      if (type === 'refiller') {
-        targetScriptURL = refillerScriptURL;
-      } else { // 'business'
-        targetScriptURL = businessScriptURL;
-      }
-
-      fetch(targetScriptURL, {
-        method: "POST",
-        body: JSON.stringify(data),
-        headers: { "Content-Type": "application/json" }
-      })
-      .then(response => {
-        if (!response.ok) {
-            return response.json().then(errData => {
-                throw new Error(errData.message || `Server responded with ${response.status}: ${response.statusText}`);
-            }).catch(() => { // If parsing errorData as JSON also fails
-                throw new Error(`Server responded with ${response.status}: ${response.statusText}`);
-            });
-        }
-        return response.json();
-      })
-      .then(resData => {
-        if (resData.result === "success") {
-            alert("Thank you! Your submission was received: " + (resData.message || ""));
-            if(currentFormModal) currentFormModal.classList.remove('active');
-            nameInput.value = '';
-            emailInput.value = '';
-            newsletterCheckbox.checked = false;
-            consentCheckbox.checked = false;
-            if (type === 'business') {
-                companyInput.value = '';
-                locationInput.value = '';
-            }
-        } else { // If Apps Script returns {result: "error", message: "..."}
-             throw new Error(resData.message || "Submission failed. Please try again.");
-        }
-      })
-      .catch(err => {
-        console.error("Submission error Details:", err); // Log the full error object
-        alert("Oops! Something went wrong. \n" + err.message + "\nPlease check the console for more details and try again.");
-      })
-      .finally(() => {
-          submitButton.textContent = originalButtonText;
-          submitButton.disabled = false;
-      });
+      console.log(`Form submission for '${type}' is now handled by direct HTML POST to Formspree.`);
+      // If you wanted to add a 'Submitting...' state to the button for direct HTML forms,
+      // you'd need to attach event listeners to the form's 'submit' event, as shown below.
+      // However, the page will navigate away, so the "Submitting..." state will be brief.
     }
 
     window.addEventListener('DOMContentLoaded', () => {
@@ -790,6 +703,26 @@
               modal.classList.remove('active');
             };
             formBox.insertBefore(closeButton, formBox.firstChild);
+        }
+      });
+
+      // Add submit event listeners to forms to show "Submitting..." state (optional for direct HTML submit)
+      const formsToTrack = [
+        document.getElementById('fillrRefillerForm'),
+        document.getElementById('fillrBusinessForm')
+      ];
+
+      formsToTrack.forEach(form => {
+        if (form) {
+          form.addEventListener('submit', function() {
+            const submitButton = form.querySelector('button[type="submit"]');
+            if (submitButton) {
+              submitButton.textContent = 'Submitting...';
+              submitButton.disabled = true;
+            }
+            // The form will now submit and navigate to Formspree's thank you page
+            // or your configured redirect.
+          });
         }
       });
 
