@@ -115,9 +115,11 @@
     font-size: 0.9rem;
   }
 
+  /* MODIFICATION 1: Unified hover color for all .btn elements */
   .btn:hover {
     transform: scale(1.05);
     box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2);
+    background-color: var(--accent-dark); /* ADDED this line for consistency */
   }
 
   .mockup {
@@ -225,9 +227,8 @@
     margin-bottom: 0;
   }
   
-  /* === STYLING FOR THE NEW UPDATES/TWITTER SECTION === */
   .updates-section {
-    background-color: var(--white); /* Or remove for transparent background */
+    background-color: var(--white);
     padding: 4rem 1.5rem;
     text-align: center;
   }
@@ -249,16 +250,14 @@
     color: #333;
     margin-bottom: 2rem;
   }
-
+  
+  /* MODIFICATION 2: Removed Twitter-specific color so it inherits from .btn */
   .twitter-btn {
-    background-color: #1DA1F2; /* Twitter Blue */
     font-size: 1.1rem;
     padding: 1rem 2.5rem;
   }
 
-  .twitter-btn:hover {
-    background-color: #0c85d0; /* Darker Twitter Blue */
-  }
+  /* DELETED the .twitter-btn:hover rule */
 
 
   .screenshots {
@@ -297,9 +296,7 @@
     font-weight: bold;
     border-radius: 50px;
     cursor: pointer;
-    transition: background 0.3s ease, transform 0.2s ease;
-    width: 80%;
-    max-width: 300px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
   }
 
   .form-toggle button:hover {
@@ -394,24 +391,26 @@
     text-decoration: none;
   }
 
+  /* MODIFICATION 3: Changed default state for modal buttons to light blue */
   .form-box button[type="submit"],
   .form-box button:not(.form-modal-close-btn) {
-    background: var(--accent-dark);
+    background: var(--accent); /* CHANGED */
     color: white;
     padding: 0.8rem 1.5rem;
     border: none;
     border-radius: 6px;
     font-weight: bold;
     cursor: pointer;
-    transition: background 0.3s ease;
+    transition: background-color 0.3s ease;
     width: 100%;
     font-size: 0.95rem;
     margin-top: 0.5rem;
   }
 
+  /* MODIFICATION 4: Changed hover state for modal buttons to dark blue */
   .form-box button[type="submit"]:hover,
   .form-box button:not(.form-modal-close-btn):hover {
-    background: var(--accent);
+    background: var(--accent-dark); /* CHANGED */
   }
 
   .form-modal-close-btn {
@@ -443,7 +442,6 @@
     font-size: 0.9rem;
   }
   
-  /* === STYLING FOR FOOTER SOCIALS === */
   .footer-socials {
       margin-bottom: 1.5rem;
   }
@@ -709,8 +707,7 @@
   </footer>
 
   <script>
-    // All form submissions are now handled by Formspree via direct HTML form actions.
-    // The submitForm() function is no longer needed for submission.
+    // All form submissions are handled by Formspree via direct HTML form actions.
     
     window.addEventListener('DOMContentLoaded', () => {
       let count = 0;
