@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Fillr – Refill Everything, Anywhere</title>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
-  <script defer data-domain="fillr-app.com" src="https://plausible.io/js/script.js"></script>
   <style>
   :root {
     --accent: #00b4d8;
@@ -225,6 +224,41 @@
   .why-section p:last-child {
     margin-bottom: 0;
   }
+  
+  /* === STYLING FOR THE NEW UPDATES/TWITTER SECTION === */
+  .updates-section {
+    background-color: var(--white); /* Or remove for transparent background */
+    padding: 4rem 1.5rem;
+    text-align: center;
+  }
+
+  .updates-content {
+    max-width: 650px;
+    margin: 0 auto;
+  }
+
+  .updates-content h2 {
+    font-size: 2rem;
+    color: var(--accent-dark);
+    margin-bottom: 1rem;
+  }
+
+  .updates-content p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: #333;
+    margin-bottom: 2rem;
+  }
+
+  .twitter-btn {
+    background-color: #1DA1F2; /* Twitter Blue */
+    font-size: 1.1rem;
+    padding: 1rem 2.5rem;
+  }
+
+  .twitter-btn:hover {
+    background-color: #0c85d0; /* Darker Twitter Blue */
+  }
 
 
   .screenshots {
@@ -408,6 +442,21 @@
     text-align: center;
     font-size: 0.9rem;
   }
+  
+  /* === STYLING FOR FOOTER SOCIALS === */
+  .footer-socials {
+      margin-bottom: 1.5rem;
+  }
+
+  .footer-socials a {
+      opacity: 0.8;
+      transition: opacity 0.2s ease;
+  }
+
+  .footer-socials a:hover {
+      opacity: 1;
+  }
+
 
   /* --- MEDIA QUERIES FOR LARGER SCREENS --- */
 
@@ -442,6 +491,8 @@
     .why-section { padding: 5rem 2rem; }
     .why-section h2 { font-size: 2.2rem; }
     .why-section p { font-size: 1.1rem; }
+    
+    .updates-content h2 { font-size: 2.2rem; }
 
     .screenshots { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1.2rem; margin-top: 2.5rem; }
     .screenshots img { border-radius: 12px; }
@@ -460,7 +511,7 @@
     .form-box button[type="submit"],
     .form-box button:not(.form-modal-close-btn) { padding: 0.85rem 1.8rem; border-radius: 8px; width: auto; font-size: 1rem; }
 
-    footer { padding: 3rem 2rem; font-size: 1rem; }
+    footer { padding: 3rem 2rem; }
   }
 
   @media (min-width: 1024px) {
@@ -482,7 +533,8 @@
 
     .why-section h2 { font-size: 2.4rem; }
     .why-section p { font-size: 1.2rem; }
-
+    
+    .updates-content h2 { font-size: 2.4rem; }
 
     .screenshots { grid-template-columns: repeat(4, 1fr); gap: 1.5rem; margin-top: 3rem; }
   }
@@ -517,6 +569,7 @@
     <div>
       <a href="#features">Features</a>
       <a href="#our-story">Our Story</a>
+      <a href="https://twitter.com/FillrApp" target="_blank" rel="noopener noreferrer">Updates</a>
       <a href="#signup">Sign Up</a>
     </div>
   </nav>
@@ -571,6 +624,17 @@
     </div>
   </section>
 
+  <section id="updates" class="updates-section">
+    <div class="updates-content">
+      <h2>Follow the Build in Real-Time</h2>
+      <p>Get the latest sneak peeks, feature announcements, and behind-the-scenes updates on our development journey by following us on Twitter/X.</p>
+      <a href="https://twitter.com/FillrApp" target="_blank" rel="noopener noreferrer" class="btn twitter-btn">
+        <svg viewBox="0 0 24 24" aria-hidden="true" style="width: 1.2em; height: 1.2em; vertical-align: middle; margin-right: 0.5em; fill: currentColor;"><g><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></g></svg>
+        Follow @FillrApp
+      </a>
+    </div>
+  </section>
+
   <section id="signup">
     <h2>📝 Get Involved</h2>
     <div class="form-toggle">
@@ -595,22 +659,15 @@
       <form id="fillrRefillerForm" action="https://formspree.io/f/mvgawkkb" method="POST">
         <label for="rname">Name</label>
         <input type="text" id="rname" name="Name" required>
-
         <label for="remail">Email</label>
         <input type="email" id="remail" name="Email" required>
-
         <div class="checkbox">
           <input type="checkbox" id="rconsent" name="ConsentToStore" value="AgreedToTerms" required>
-          <label for="rconsent">
-            I agree to Fillr storing my name and email to notify me about the app launch.
-            I have read and agree to the <a href="privacy-policy.html" target="_blank">Privacy Policy</a>.
-          </label>
+          <label for="rconsent">I agree to Fillr storing my name and email to notify me about the app launch. I have read and agree to the <a href="#" target="_blank">Privacy Policy</a>.</label>
         </div>
         <div class="checkbox">
           <input type="checkbox" id="rnews" name="NewsletterOptIn" value="Yes">
-          <label for="rnews">
-            Yes, I’d also like to receive the optional Fillr monthly newsletter with app updates, impact stories, and case studies. (You can unsubscribe anytime.)
-          </label>
+          <label for="rnews">Yes, I’d also like to receive the optional Fillr monthly newsletter with app updates, impact stories, and case studies. (You can unsubscribe anytime.)</label>
         </div>
         <button type="submit">Submit</button>
       </form>
@@ -621,28 +678,21 @@
     <div class="form-box">
       <h3>Register Your Business</h3>
       <form id="fillrBusinessForm" action="https://formspree.io/f/xyzwnewy" method="POST">
-        <label for="bname">Your Name</label> <input type="text" id="bname" name="ContactName" required>
-
+        <label for="bname">Your Name</label>
+        <input type="text" id="bname" name="ContactName" required>
         <label for="bemail">Business Email</label>
         <input type="email" id="bemail" name="BusinessEmail" required>
-
         <label for="bcompany">Business Name</label>
         <input type="text" id="bcompany" name="BusinessName" required>
-
-        <label for="blocation">Location (Town/City)</label> <input type="text" id="blocation" name="BusinessLocation" required>
-
+        <label for="blocation">Location (Town/City)</label>
+        <input type="text" id="blocation" name="BusinessLocation" required>
         <div class="checkbox">
           <input type="checkbox" id="bconsent" name="ConsentToStore" value="AgreedToTerms" required>
-          <label for="bconsent">
-            I agree to Fillr storing my name and email to notify me about the app launch.
-            I have read and agree to the <a href="privacy-policy.html" target="_blank">Privacy Policy</a>.
-          </label>
+          <label for="bconsent">I agree to Fillr storing my name and email to notify me about the app launch. I have read and agree to the <a href="#" target="_blank">Privacy Policy</a>.</label>
         </div>
         <div class="checkbox">
           <input type="checkbox" id="bnews" name="NewsletterOptIn" value="Yes">
-          <label for="bnews">
-            Yes, I’d also like to receive the optional Fillr monthly newsletter with app updates, impact stories, and case studies. (You can unsubscribe anytime.)
-          </label>
+          <label for="bnews">Yes, I’d also like to receive the optional Fillr monthly newsletter with app updates, impact stories, and case studies. (You can unsubscribe anytime.)</label>
         </div>
         <button type="submit">Submit</button>
       </form>
@@ -650,23 +700,18 @@
   </div>
 
   <footer>
+    <div class="footer-socials">
+      <a href="https://twitter.com/FillrApp" target="_blank" rel="noopener noreferrer" title="Follow Fillr on Twitter/X">
+        <svg viewBox="0 0 24 24" aria-hidden="true" style="width: 28px; height: 28px; fill: white;"><g><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></g></svg>
+      </a>
+    </div>
     &copy; 2025 Fillr. Refill everything. Inspire everyone. Launching soon.
   </footer>
 
   <script>
-    // Google Apps Script URLs are no longer needed as both forms use Formspree
-    // const refillerScriptURL = "YOUR_OLD_REFILLER_APPS_SCRIPT_URL";
-    // const businessScriptURL = "YOUR_OLD_BUSINESS_APPS_SCRIPT_URL"; 
-
-    // The submitForm function is no longer needed for direct HTML form submissions to Formspree.
-    // You can remove it or leave it empty if no other JavaScript interactions are planned for form submission.
-    function submitForm(type) {
-      console.log(`Form submission for '${type}' is now handled by direct HTML POST to Formspree.`);
-      // If you wanted to add a 'Submitting...' state to the button for direct HTML forms,
-      // you'd need to attach event listeners to the form's 'submit' event, as shown below.
-      // However, the page will navigate away, so the "Submitting..." state will be brief.
-    }
-
+    // All form submissions are now handled by Formspree via direct HTML form actions.
+    // The submitForm() function is no longer needed for submission.
+    
     window.addEventListener('DOMContentLoaded', () => {
       let count = 0;
       const el = document.getElementById('counter');
@@ -707,7 +752,7 @@
         }
       });
 
-      // Add submit event listeners to forms to show "Submitting..." state (optional for direct HTML submit)
+      // Add submit event listeners to forms to show "Submitting..." state
       const formsToTrack = [
         document.getElementById('fillrRefillerForm'),
         document.getElementById('fillrBusinessForm')
@@ -721,8 +766,6 @@
               submitButton.textContent = 'Submitting...';
               submitButton.disabled = true;
             }
-            // The form will now submit and navigate to Formspree's thank you page
-            // or your configured redirect.
           });
         }
       });
