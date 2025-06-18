@@ -99,6 +99,26 @@
         text-align: center;
     }
 
+    /* --- NEW: MOBILE NAVIGATION FIXES --- */
+/* Targets screens smaller than 420px wide */
+@media (max-width: 420px) {
+  nav {
+    padding: 1rem; /* Reduce side padding to gain space */
+  }
+  nav a {
+    font-size: 0.8rem;   /* Make font slightly smaller */
+    margin-left: 0.7rem; /* Reduce space between links */
+  }
+}
+
+/* Optional: for very narrow screens like iPhone SE */
+@media (max-width: 380px) {
+    nav a {
+        font-size: 0.75rem;
+        margin-left: 0.5rem;
+    }
+}
+
     /* MODAL STYLES (Copied from index.html) */
     .form-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: none; justify-content: center; align-items: center; z-index: 1000; opacity: 0; transform: translateY(20px); transition: opacity 0.3s ease, transform 0.3s ease; padding: 1rem; }
     .form-modal.active { display: flex; opacity: 1; transform: translateY(0); }
