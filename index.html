@@ -12,7 +12,6 @@
     --bg: #f0faff;
     --white: #ffffff;
     --dark: #1e1e1e;
-    --blur: rgba(255, 255, 255, 0.6);
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -43,6 +42,7 @@
     font-size: 1.3rem;
     font-weight: 700;
     color: var(--accent-dark);
+    text-decoration: none; /* Ensure logo has no underline if it's a link */
   }
 
   nav a {
@@ -104,6 +104,7 @@
 
 
   .btn {
+    display: inline-block;
     padding: 0.8rem 1.6rem;
     border-radius: 100px;
     font-weight: 600;
@@ -115,11 +116,10 @@
     font-size: 0.9rem;
   }
 
-  /* MODIFICATION 1: Unified hover color for all .btn elements */
   .btn:hover {
     transform: scale(1.05);
     box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2);
-    background-color: var(--accent-dark); /* ADDED this line for consistency */
+    background-color: var(--accent-dark);
   }
 
   .mockup {
@@ -250,14 +250,11 @@
     color: #333;
     margin-bottom: 2rem;
   }
-  
-  /* MODIFICATION 2: Removed Twitter-specific color so it inherits from .btn */
+
   .twitter-btn {
     font-size: 1.1rem;
     padding: 1rem 2.5rem;
   }
-
-  /* DELETED the .twitter-btn:hover rule */
 
 
   .screenshots {
@@ -297,6 +294,8 @@
     border-radius: 50px;
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.2s ease;
+    width: 80%;
+    max-width: 300px;
   }
 
   .form-toggle button:hover {
@@ -391,10 +390,9 @@
     text-decoration: none;
   }
 
-  /* MODIFICATION 3: Changed default state for modal buttons to light blue */
   .form-box button[type="submit"],
   .form-box button:not(.form-modal-close-btn) {
-    background: var(--accent); /* CHANGED */
+    background: var(--accent);
     color: white;
     padding: 0.8rem 1.5rem;
     border: none;
@@ -407,10 +405,9 @@
     margin-top: 0.5rem;
   }
 
-  /* MODIFICATION 4: Changed hover state for modal buttons to dark blue */
   .form-box button[type="submit"]:hover,
   .form-box button:not(.form-modal-close-btn):hover {
-    background: var(--accent-dark); /* CHANGED */
+    background: var(--accent-dark);
   }
 
   .form-modal-close-btn {
@@ -563,9 +560,9 @@
 </head>
 <body>
   <nav>
-    <div class="logo">Fillr</div>
+    <a href="index.html" class="logo">Fillr</a>
     <div>
-      <a href="#features">Features</a>
+      <a href="for-businesses.html">For Businesses</a>
       <a href="#our-story">Our Story</a>
       <a href="https://twitter.com/FillrApp" target="_blank" rel="noopener noreferrer">Updates</a>
       <a href="#signup">Sign Up</a>
@@ -576,10 +573,8 @@
     <div class="text">
       <h1>Refill. Reuse. Reward.</h1>
       <p>Discover refill stations, get rewarded for reusing, and inspire change — all in one social, sustainable app experience.</p>
-      
       <h2 class="landing-subheadline">Refill Smart. Live Sustainably.</h2>
       <p class="landing-secondary-text">Every time you choose to reuse, you make a difference. Fillr is your guide to convenient refill locations, exclusive rewards for your green habits, and a community committed to a cleaner future.</p>
- 
       <a href="#signup" class="btn">🌍 Join the Refill Revolution</a>
     </div>
     <div class="mockup">
@@ -592,8 +587,7 @@
     <p><span class="counter-number" id="counter">0</span> bottles, cups & bags wasted worldwide</p>
   </section>
 
-  <section>
-    <h2 id="features">🚰 Discover Eco Refill Spots</h2>
+  <section id="features"> <h2 id="features">🚰 Discover Eco Refill Spots</h2>
     <div class="features">
       <div class="feature">
         <h3>🌍 Map-Based Discovery</h3>
@@ -766,6 +760,11 @@
           });
         }
       });
+
+      // We no longer need the complex submitForm() function, but the modal-opening buttons need to work.
+      // The onclick attributes in the HTML handle this directly:
+      // onclick="document.getElementById('refillerForm').classList.add('active')"
+      // onclick="document.getElementById('businessForm').classList.add('active')"
 
       document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
